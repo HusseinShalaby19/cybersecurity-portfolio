@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+# Local-only list of real names/hosts to keep OUT of the repo (never commit)
+.sanitize-denylist.txt
+# Never commit real outputs or configs
+ad-audit-*/
+*.bak
+private/

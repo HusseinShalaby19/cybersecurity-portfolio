@@ -1,0 +1,138 @@
+[
+  {
+    "rule_id": "FW-003",
+    "severity": "critical",
+    "title": "Remote access service exposed to the internet",
+    "obj": "policy 2 (Inbound-RDP-temp-vendor)",
+    "detail": "Inbound from WAN with source 'all' permits: RDP.",
+    "recommendation": "Remove direct exposure; publish remote access through MFA-protected VPN/ZTNA and restrict sources."
+  },
+  {
+    "rule_id": "MGMT-001",
+    "severity": "critical",
+    "title": "Clear-text admin protocol on WAN interface",
+    "obj": "interface port1",
+    "detail": "allowaccess includes http.",
+    "recommendation": "Remove HTTP/Telnet from all interfaces; manage only from a dedicated management network."
+  },
+  {
+    "rule_id": "FW-001",
+    "severity": "high",
+    "title": "Any-to-any accept rule",
+    "obj": "policy 1 (Staff-to-Internet)",
+    "detail": "Source, destination and service are all unrestricted.",
+    "recommendation": "Replace with explicit source/destination objects and only the services required."
+  },
+  {
+    "rule_id": "FW-001",
+    "severity": "high",
+    "title": "Any-to-any accept rule",
+    "obj": "policy 4",
+    "detail": "Source, destination and service are all unrestricted.",
+    "recommendation": "Replace with explicit source/destination objects and only the services required."
+  },
+  {
+    "rule_id": "FW-004",
+    "severity": "high",
+    "title": "Clear-text or high-risk service permitted",
+    "obj": "policy 2 (Inbound-RDP-temp-vendor)",
+    "detail": "Allows: RDP.",
+    "recommendation": "Use encrypted alternatives (SSH, SFTP, HTTPS, SNMPv3) or tightly scope the rule."
+  },
+  {
+    "rule_id": "FW-004",
+    "severity": "high",
+    "title": "Clear-text or high-risk service permitted",
+    "obj": "policy 5 (Staff-FTP-to-Internet)",
+    "detail": "Allows: FTP.",
+    "recommendation": "Use encrypted alternatives (SSH, SFTP, HTTPS, SNMPv3) or tightly scope the rule."
+  },
+  {
+    "rule_id": "MGMT-003",
+    "severity": "high",
+    "title": "Administrator without trusted hosts",
+    "obj": "admin account #f6fe86",
+    "detail": "Admin account can log in from any source address.",
+    "recommendation": "Set trusthost entries limited to the management network."
+  },
+  {
+    "rule_id": "FW-005",
+    "severity": "medium",
+    "title": "Logging disabled on accept rule",
+    "obj": "policy 2 (Inbound-RDP-temp-vendor)",
+    "detail": "logtraffic is set to disable.",
+    "recommendation": "Enable logging (all or utm) so allowed traffic can be investigated."
+  },
+  {
+    "rule_id": "FW-006",
+    "severity": "medium",
+    "title": "Internet-bound rule without security profiles",
+    "obj": "policy 1 (Staff-to-Internet)",
+    "detail": "No AV / web filter / IPS profiles applied to outbound traffic.",
+    "recommendation": "Apply web filtering, application control, IPS and AV profiles as per policy."
+  },
+  {
+    "rule_id": "FW-006",
+    "severity": "medium",
+    "title": "Internet-bound rule without security profiles",
+    "obj": "policy 5 (Staff-FTP-to-Internet)",
+    "detail": "No AV / web filter / IPS profiles applied to outbound traffic.",
+    "recommendation": "Apply web filtering, application control, IPS and AV profiles as per policy."
+  },
+  {
+    "rule_id": "FW-008",
+    "severity": "medium",
+    "title": "Temporary rule with permanent schedule",
+    "obj": "policy 2 (Inbound-RDP-temp-vendor)",
+    "detail": "Rule is labelled temporary but runs on schedule 'always'.",
+    "recommendation": "Attach a one-time schedule with an expiry date or remove the rule."
+  },
+  {
+    "rule_id": "FW-009",
+    "severity": "medium",
+    "title": "Shadowed rule (never matches)",
+    "obj": "policy 5 (Staff-FTP-to-Internet)",
+    "detail": "Fully covered by earlier policy 1 (Staff-to-Internet); action here is 'accept', earlier action is 'accept'.",
+    "recommendation": "Reorder or remove the rule; confirm intended behaviour with the rule owner."
+  },
+  {
+    "rule_id": "MGMT-004",
+    "severity": "medium",
+    "title": "Administrator without MFA",
+    "obj": "admin account #f6fe86",
+    "detail": "two-factor is not enabled.",
+    "recommendation": "Enable FortiToken / email / RADIUS-backed MFA for all administrators."
+  },
+  {
+    "rule_id": "FW-007",
+    "severity": "low",
+    "title": "Rule has no name or comment",
+    "obj": "policy 4",
+    "detail": "Purpose and owner cannot be determined from the rulebase.",
+    "recommendation": "Record purpose, owner, ticket reference and review date in the comment."
+  },
+  {
+    "rule_id": "FW-010",
+    "severity": "low",
+    "title": "Disabled policy left in rulebase",
+    "obj": "policy 6 (Old-migration-rule)",
+    "detail": "Policy is disabled but still present.",
+    "recommendation": "Remove unused policies after confirming with the owner; keep the rulebase reviewable."
+  },
+  {
+    "rule_id": "MGMT-005",
+    "severity": "low",
+    "title": "Long admin idle timeout",
+    "obj": "system global",
+    "detail": "admintimeout is 60 minutes.",
+    "recommendation": "Set admintimeout to 15 minutes or less."
+  },
+  {
+    "rule_id": "MGMT-006",
+    "severity": "low",
+    "title": "HTTP admin not redirected to HTTPS",
+    "obj": "system global",
+    "detail": "admin-https-redirect is disabled.",
+    "recommendation": "Enable HTTPS redirect for the admin GUI."
+  }
+]

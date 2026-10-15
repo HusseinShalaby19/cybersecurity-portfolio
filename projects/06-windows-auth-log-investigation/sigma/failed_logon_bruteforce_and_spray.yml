@@ -1,0 +1,65 @@
+title: Failed Windows Logon (base rule)
+id: f522c906-1191-4f1e-8c75-580525e2f123
+name: win_failed_logon
+status: experimental
+description: Base rule for failed logons (4625). Used by the correlation rules below.
+author: Portfolio lab
+date: 2026-10-15
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  condition: selection
+level: informational
+---
+title: Brute Force Against a Single Account
+id: c55d63cf-360e-45c6-9fce-fd6656888872
+status: experimental
+description: 10 or more failed logons for the same account within 5 minutes.
+author: Portfolio lab
+date: 2026-10-15
+references:
+  - https://attack.mitre.org/techniques/T1110/001/
+tags:
+  - attack.credential-access
+  - attack.t1110.001
+correlation:
+  type: event_count
+  rules:
+    - win_failed_logon
+  group-by:
+    - TargetUserName
+  timespan: 5m
+  condition:
+    gte: 10
+falsepositives:
+  - Service account with an expired password retrying automatically
+level: high
+---
+title: Password Spray From a Single Source
+id: 66db3e7c-412c-4ad1-a3ef-945a940d6353
+status: experimental
+description: Failed logons for 10 or more distinct accounts from one source address within 15 minutes.
+author: Portfolio lab
+date: 2026-10-15
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+tags:
+  - attack.credential-access
+  - attack.t1110.003
+correlation:
+  type: value_count
+  rules:
+    - win_failed_logon
+  group-by:
+    - IpAddress
+  timespan: 15m
+  condition:
+    field: TargetUserName
+    gte: 10
+falsepositives:
+  - Shared terminal / jump host with many users mistyping passwords (tune by source)
+  - NAT gateways or VPN concentrators presenting many users behind one address
+level: high

@@ -1,0 +1,21 @@
+title: Domain User Account Created
+id: c7608be8-8696-4c05-86b1-0fcdb89c44a7
+status: experimental
+description: New user account created. Review outside of normal onboarding workflow.
+author: Portfolio lab
+date: 2026-10-15
+references:
+  - https://attack.mitre.org/techniques/T1136/002/
+tags:
+  - attack.persistence
+  - attack.t1136.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4720
+  condition: selection
+falsepositives:
+  - HR-driven onboarding performed by the identity team
+level: medium

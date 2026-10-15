@@ -1,0 +1,27 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Sanitization scan
+        run: python tools/sanitize_check.py .
+      - name: Unit tests
+        run: python -m pytest
+
+  powershell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: AD audit script against mocked AD
+        shell: pwsh
+        run: ./projects/07-ad-security-audit-powershell/tests/Test-WithMockAD.ps1

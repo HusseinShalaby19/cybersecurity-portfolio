@@ -1,0 +1,21 @@
+title: Windows Security Event Log Cleared
+id: 5fde224b-8128-44f5-97f0-124a76e6e140
+status: experimental
+description: The Security event log was cleared, a common defense-evasion step.
+author: Portfolio lab
+date: 2026-10-15
+references:
+  - https://attack.mitre.org/techniques/T1070/001/
+tags:
+  - attack.defense-evasion
+  - attack.t1070.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 1102
+  condition: selection
+falsepositives:
+  - Rare; log maintenance should be done by central collection, not clearing
+level: critical
